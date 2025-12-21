@@ -1,0 +1,35 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - uses: haskell-actions/setup@v2
+      with:
+        ghc-version: '9.10.3'
+        cabal-version: 'latest'
+        enable-stack: true
+        stack-version: 'latest'
+    
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.stack
+        key: ${{ runner.os }}-stack-${{ hashFiles('**/stack.yaml.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-stack-
+    
+    - name: Build
+      run: make build
+    
+    - name: Test
+      run: make test

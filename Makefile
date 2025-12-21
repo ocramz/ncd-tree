@@ -1,4 +1,4 @@
-.PHONY: build test clean help
+.PHONY: build test clean bench help
 
 ## build - Build the library
 build:
@@ -7,6 +7,10 @@ build:
 ## test - Run the test suite
 test:
 	stack test
+
+## bench - Run runtime benchmarks (using benchpress library)
+bench:
+	stack bench
 
 ## clean - Remove build artifacts
 clean:

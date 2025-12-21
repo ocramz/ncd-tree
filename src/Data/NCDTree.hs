@@ -10,9 +10,7 @@ module Data.NCDTree
   ) where
 
 import Control.Monad.ST
-import Data.List (sortBy)
 import Data.Ord (Down(..), comparing)
-import Data.Word (Word64)
 
 import qualified Data.ByteString.Lazy as BL
 
@@ -40,9 +38,12 @@ data VPTree = VPNode { pivot    :: Document
 -- max-heap
 type ResultHeap = H.Heap (H.Entry (Down Double) Document)
 
+deleteMax :: H.Heap a -> H.Heap a
 deleteMax = H.deleteMin
+viewMax :: H.Heap a -> Maybe (a, H.Heap a)
 viewMax = H.viewMin
 
+knnSearch :: Int -> Document -> VPTree -> ResultHeap
 knnSearch k query root = go root H.empty
   where
     go VPEmpty h = h

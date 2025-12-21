@@ -22,7 +22,7 @@ NCD(x, y) = (C(xy) - min(C(x), C(y))) / max(C(x), C(y))
 ```
 where C(s) is the compressed size of s using gzip.
 
-
+This metric has been rediscovered multiple times in the research literature, first for clustering (Cilibrasi and Vitanyi 2005) and more recently in the text classification setting (Jiang et al 2023).
 
 ### Why VP-trees?
 
@@ -63,14 +63,12 @@ let results = knnSearch 2 query tree
 
 ## Characteristics
 
-- **Universal metric**: Works with any data that can be compressed, no feature engineering needed
+- **Universal metric**: Works with any data that can be compressed, no feature engineering or model training needed
 - **Approximate search**: VP-tree pruning makes it an approximate (but highly accurate in practice) nearest neighbor search
-- **Lossless comparison**: Based on information-theoretic principles
-- **Pure Haskell**: No external dependencies beyond compression libraries
 
 ## Testing
 
-The library includes a comprehensive property-based test suite with over 3,100 generated test cases covering:
+The library includes a comprehensive property-based test suite covering:
 - Core distance and tree construction properties
 - Similarity search correctness
 - Edge cases and tree structure invariants

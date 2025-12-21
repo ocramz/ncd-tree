@@ -1,12 +1,13 @@
 # ncd-tree
 
+[![Tests](https://github.com/ocramz/ncd-tree/actions/workflows/test.yml/badge.svg)](https://github.com/ocramz/ncd-tree/actions/workflows/test.yml)
+
 ## Overview
 
 `ncd-tree` is a Haskell library for **similarity-based nearest neighbor search** using the **Normalized Compression Distance (NCD)** metric combined with **Vantage-Point (VP) trees**.
 
 ### What it does
 
-The library enables you to:
 - Define a notion of similarity between documents based on their compressibility with gzip
 - Build an index structure (VP-tree) that accelerates k-nearest neighbor searches
 - Query the index to find documents most similar to a given query document
@@ -20,6 +21,8 @@ For two documents x and y:
 NCD(x, y) = (C(xy) - min(C(x), C(y))) / max(C(x), C(y))
 ```
 where C(s) is the compressed size of s using gzip.
+
+
 
 ### Why VP-trees?
 
@@ -79,6 +82,8 @@ stack test
 
 ## References
 
+- Jiang, Z. et al., “Low-Resource” Text Classification: A Parameter-Free Classification Method with Compressors, https://aclanthology.org/2023.findings-acl.426/ 
 - Cleary, J. G., & Trigg, R. H. (1979). "K-W-nearest neighbor classification for statistically dependent data"
 - Yianilos, P. N. (1993). "Data structures and algorithms for nearest neighbor search in general metric spaces"
 - Li, M., Chen, X., Li, X., Ma, B., & Vitányi, P. M. (2004). "The similarity metric"
+- Cilibrasi, R., & Vitányi, P. M. (2005). "Clustering by compression". https://arxiv.org/abs/cs/0312044 IEEE Transactions on Information Theory, 51(4), 1440-1454.

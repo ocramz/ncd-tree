@@ -161,9 +161,8 @@ spec = do
             results = knnSearch k query tree
             resultsList = heapToList results
             distances = map (ncd (docText query) . docText) resultsList
-        in if not (null distances)
-           then all (>= 0) distances  -- All distances should be non-negative
-           else True
+        in -- All distances should be non-negative and at most 1
+           all (\d -> d >= 0 && d <= 1) distances
 
     it "all result documents are from the tree" $ property $
       \docs ->

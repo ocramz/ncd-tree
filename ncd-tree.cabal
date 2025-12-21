@@ -1,0 +1,83 @@
+cabal-version:       2.2
+
+name:                ncd-tree
+version:             0.1.0.0
+-- synopsis:
+-- description:
+homepage:            https://github.com/ocramz/ncd-tree
+license:             BSD-3-Clause
+license-file:        LICENSE
+author:              Marco Zocca
+maintainer:          example@example.com
+copyright:           2025 Marco Zocca
+category:            Acme
+build-type:          Simple
+extra-source-files:  README.md
+                     CHANGELOG.md
+tested-with:         GHC == 9.10.3
+
+library
+  default-language:    Haskell2010
+  hs-source-dirs:      src
+  exposed-modules:     Data.NCDTree
+  build-depends:       base >= 4.7 && < 5
+                     , bytestring
+                     , heaps
+                     , vector
+                     , vector-algorithms
+                     , zlib
+  ghc-options:         -Wall
+                       -Wcompat
+                       -Widentities
+                       -Wincomplete-record-updates
+                       -Wincomplete-uni-patterns
+                       -Wmissing-export-lists
+                       -Wmissing-home-modules
+                       -Wpartial-fields
+                       -Wredundant-constraints
+
+-- executable ncd-tree
+--   default-language:    Haskell2010
+--   hs-source-dirs:      app
+--   main-is:             Main.hs
+--   build-depends:       base
+--                      , ncd-tree
+--   ghc-options:         -Wall
+--                        -Wcompat
+--                        -Widentities
+--                        -Wincomplete-record-updates
+--                        -Wincomplete-uni-patterns
+--                        -Wmissing-export-lists
+--                        -Wmissing-home-modules
+--                        -Wpartial-fields
+--                        -Wredundant-constraints
+--                        -threaded
+--                        -rtsopts
+--                        -with-rtsopts=-N
+
+test-suite spec
+  default-language:    Haskell2010
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  other-modules:       Data.NCDTreeSpec
+  build-depends:       base
+                     , ncd-tree
+                     , bytestring
+                     , heaps
+                     , hspec
+                     , hspec-discover
+                     , QuickCheck
+  ghc-options:         -Wall
+                       -Wcompat
+                       -Widentities
+                       -Wincomplete-record-updates
+                       -Wincomplete-uni-patterns
+                       -Wmissing-export-lists
+                       -Wmissing-home-modules
+                       -Wpartial-fields
+                       -Wredundant-constraints
+
+source-repository head
+  type:     git
+  location: https://github.com/ocramz/ncd-tree

@@ -20,7 +20,7 @@ homepage:            https://github.com/ocramz/ncd-tree
 license:             BSD-3-Clause
 license-file:        LICENSE
 author:              Marco Zocca
-maintainer:          example@example.com
+maintainer:          ocramz
 copyright:           2025 Marco Zocca
 category:            Data
 build-type:          Simple

@@ -2,15 +2,27 @@ cabal-version:       2.2
 
 name:                ncd-tree
 version:             0.1.0.0
--- synopsis:
--- description:
+synopsis: text similarity search using normalized compression distance and VP trees
+description:
+  ncd-tree is a Haskell library that implements a data structure and query layer for efficient
+  similarity search based on the Normalized Compression Distance (NCD) metric
+  and Vantage Point (VP) trees. It allows users to store and query large
+  datasets of text documents, enabling fast retrieval of similar texts based
+  on their compressed representations.
+  This library is particularly useful for applications such as
+  document clustering and recommendation systems.
+  NCD is a parameter-free, universal similarity metric based on information distance,
+  which quantifies how similar two objects are by measuring the length of their
+  compressed concatenation relative to their individual compressed lengths.
+  VP trees are a type of metric tree that organizes data points in a way that
+  allows for efficient nearest neighbor searches in metric spaces.
 homepage:            https://github.com/ocramz/ncd-tree
 license:             BSD-3-Clause
 license-file:        LICENSE
 author:              Marco Zocca
 maintainer:          example@example.com
 copyright:           2025 Marco Zocca
-category:            Acme
+category:            Data
 build-type:          Simple
 extra-source-files:  README.md
                      CHANGELOG.md

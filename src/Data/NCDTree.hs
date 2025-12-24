@@ -107,45 +107,40 @@ getD other p = ncd (docText p) (docText other)
 mkVPTree :: Int -> [Document] -> VPTree
 mkVPTree leafThreshold docs = runST $ do
     mutVec <- V.thaw (V.fromList docs)
-    build mutVec 0 (MV.length mutVec)
+    build mutVec
       where
-        build vec start len = do
+        build vec = do
+          let len = MV.length vec
           if len == 0 then return VPEmpty
             else if len < leafThreshold then do
-            finalVec <- V.freeze (MV.slice start len vec)
-            return $ VPLeaf (V.toList finalVec)
+            -- Collect items directly from the mutable vector slice
+            items <- traverse (MV.read vec) [0 .. len - 1]
+            return $ VPLeaf items
             else
             do
               -- 1. Pick first element as pivot (vantage point)
-              vp <- MV.read vec start
+              vp <- MV.read vec 0
               -- 2. Sort the remaining elements by distance to vp
-              let subStart = start + 1
-                  subLen = len - 1
-              sortSliceBy vec subStart subLen (comparing (getD vp))
+              let subVec = MV.slice 1 (len - 1) vec
+              sortSliceBy subVec (comparing (getD vp))
               -- 3. Split at midpoint
-              let mid = max 1 (subLen `div` 2)
-                  insideStart = subStart
-                  insideLen = mid
-                  outsideStart = subStart + mid
-                  outsideLen = subLen - mid
-                  lastInsideIdx = insideStart + insideLen - 1
+              let subLen = len - 1
+                  mid = max 1 (subLen `div` 2)
+                  insideVec = MV.slice 1 mid vec
+                  outsideVec = MV.slice (1 + mid) (subLen - mid) vec
               -- 4. Find threshold as distance to last element in 'inside'
-              lastInside <- MV.read vec lastInsideIdx
+              lastInside <- MV.read vec mid
               let thresh = getD vp lastInside
               -- 5. Recurse on slices
-              leftTree <- build vec insideStart insideLen
-              rightTree <- build vec outsideStart outsideLen
+              leftTree <- build insideVec
+              rightTree <- build outsideVec
               return $ VPNode vp thresh leftTree rightTree
 
 -- | Sort a mutable vector slice in-place by a comparison function on elements
 sortSliceBy :: MV.MVector s Document 
-            -> Int 
-            -> Int 
             -> (Document -> Document -> Ordering) 
             -> ST s ()
-sortSliceBy vec start len cmp = do
-  let sliced = MV.slice start len vec
-  MV.sortBy cmp sliced
+sortSliceBy vec cmp = MV.sortBy cmp vec
 
 
 

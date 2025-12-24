@@ -33,22 +33,24 @@ VP-trees are a space-partitioning data structure that significantly accelerates 
 ```haskell
 {-# LANGUAGE OverloadedStrings #-}
 
-import qualified Data.ByteString.Lazy.Char8 as BL
-import Data.NCDTree
+from Data.NCDTree import Document, mkVPTree, knnSearch
 
--- Create documents from bytestrings
-let docs = [ Document (BL.pack "hello world")
-           , Document (BL.pack "hello universe")
-           , Document (BL.pack "goodbye world")
-           , Document (BL.pack "hello there")
-           ]
+-- Create documents using string literals (thanks to IsString instance)
+docs :: [Document]
+docs = [ "hello world"
+        , "hello universe"
+        , "goodbye world"
+        , "hello there"
+        ]
 
 -- Build the VP-tree index with a leaf threshold of 4
-let tree = mkVPTree 4 docs
+tree = mkVPTree 4 docs
 
 -- Search for the 2 nearest neighbors of "hello"
-let query = Document (BL.pack "hello")
-let results = knnSearch 2 query tree
+query :: Document
+query = "hello"
+
+results = knnSearch 2 query tree
 
 -- results is a max-heap with the closest documents
 ```

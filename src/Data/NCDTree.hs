@@ -10,9 +10,11 @@ module Data.NCDTree
   ) where
 
 import Control.Monad.ST
+import Data.String (IsString(..))
 import Data.Ord (Down(..), comparing)
 
 import qualified Data.ByteString.Lazy as BL
+import qualified Data.ByteString.Lazy.Char8 as BLC
 
 import qualified Data.Heap as H
 
@@ -25,6 +27,9 @@ import Codec.Compression.GZip (compress)
 newtype Document = Document
     { docText :: BL.ByteString
     } deriving (Eq, Show)
+
+instance IsString Document where
+  fromString = Document . BLC.pack
 
 data VPTree = VPNode { pivot    :: Document
                      , threshold :: Double
